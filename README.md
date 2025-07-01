@@ -47,9 +47,32 @@ With a custom preprocessing pipeline:
 
 ## 📊 Results
 
-- **Accuracy**: 93.25%
-- **Metrics**: Confusion Matrix, ROC Curve, AUC
-- Robust to low-resolution, compressed, and occluded videos.
+### 📊 Results
+
+The final model achieves the following performance:
+
+| Metric     | Previous Model | Current Model |
+|------------|----------------|----------------|
+| Accuracy   | 89.20%         | **93.25%**     |
+| Precision  | 88.40%         | **94.00%**     |
+| Recall     | 90.10%         | **93.00%**     |
+| F1-Score   | 89.20%         | **93.00%**     |
+| AUC        | 0.94           | **1.00**       |
+
+**Table: Comparison of performance metrics between the previous and current model**
+
+---
+
+### 🔼 Improvements Over Previous Version
+
+This version of the model shows a **4.05% increase in accuracy** and consistent improvements across all metrics. These gains are primarily due to:
+
+- 🎯 **Focused facial region detection**: Improved preprocessing pipeline using **YOLOv8-Face** to extract face-only frames with high precision.
+- 🧠 **ResNet-18 + TCN Architecture**: Combines spatial features (ResNet-18) with temporal dynamics (TCN), allowing better detection of subtle inconsistencies over time.
+- 📊 **Balanced and cleaned dataset**: Includes a higher quality, better structured dataset with **balanced class distribution** and rigorous frame-level filtering.
+
+These improvements not only enhanced accuracy but also improved **generalization on unseen data**, making the model more reliable in real-world scenarios.
+
 
 ## 📌 Key Features
 
