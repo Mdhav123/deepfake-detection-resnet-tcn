@@ -22,15 +22,15 @@ This hybrid model ensures both single-frame and motion-based anomalies are detec
 
 ## 🗂️ Project Structure
 
-├── may_extraction.py           # Frame extraction from videos  
-├── face-only_video.py          # Face detection and face-only video generation  
-├── video_dataset.py            # Custom PyTorch Dataset class  
-├── training_resnettcn.py       # Model training script  
-├── test_resnetcn.py            # Evaluation script with metrics  
-├── inference_resnettcn.py      # Inference pipeline for new videos  
-├── frames/                     # Directory containing extracted frames  
-├── dataset/                    # Videos (real and fake)  
-└── requirements.txt            # Dependencies
+├── may_extraction.py              # Frame extraction from videos  
+├── face-only_video.py             # Face detection and face-only video generation  
+├── video_dataset.py               # Custom PyTorch Dataset class  
+├── training_resnettcn.py          # Model training script  
+├── test_resnetcn.py               # Evaluation script with metrics  
+├── inference_resnettcn.py         # Inference pipeline for new videos  
+├── frames/                        # Directory containing extracted frames  
+├── dataset/                       # Videos (real and fake)  
+└── requirements.txt               # Dependencies
 
 
 
