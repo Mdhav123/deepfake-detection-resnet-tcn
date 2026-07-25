@@ -31,12 +31,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 yolo_model_path = os.path.join(BASE_DIR, "weights", "yolov8n-face-lindevs.pt")
 resnet_tcn_weights = os.path.join(BASE_DIR, "weights", "resnet_tcn_deepfake_1.pt")    
 
+# 1. Automated downlinks for the YOLO face tracker asset layer
 if not os.path.exists(yolo_model_path):
     import urllib.request
     os.makedirs(os.path.dirname(yolo_model_path), exist_ok=True)
     print("📥 Missing YOLO face weights in cloud container. Downloading file dynamically...")
     
-    # CORRECT FULL DOWNLOAD LINK STRING
+    # Full direct binary asset server string
     url = "https://github.com"
     
     urllib.request.urlretrieve(url, yolo_model_path)
@@ -44,6 +45,14 @@ if not os.path.exists(yolo_model_path):
 
 device = torch.device("cpu")
 
+# 2. Global Model Realization
+print("🔄 Initializing core model binaries on CPU via dynamic paths...")
+yolo_model = YOLO(yolo_model_path)
+
+model = ResNetTCN().to(device)
+model.load_state_dict(torch.load(resnet_tcn_weights, map_location=device))
+model.eval()
+print("✅ Systems active and ready for inference!")
 
 # ==== YOUR EXACT PIPELINE STEP 2 ====
 def create_face_only_video(input_video_path):
