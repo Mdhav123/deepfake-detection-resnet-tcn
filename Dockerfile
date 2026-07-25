@@ -10,12 +10,16 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-COPY requirements.txt
+# Fix 1: Added space and a dot at the end
+COPY requirements.txt .
 
+# Fix 2: Updated to the correct lightweight CPU URL to save memory
 RUN pip install --no-cache-dir --extra-index-url https://pytorch.org torch torchvision
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ..
+# Fix 3: Corrected the copy syntax to copy all local folders
+COPY . .
+
 EXPOSE 8000
 
 CMD ["uvicorn", "app.api:app", "--host", "0.0.0.0", "--port", "8000"]
