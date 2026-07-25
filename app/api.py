@@ -26,17 +26,29 @@ app.add_middleware(
 )
 
 # ==== PRODUCTION CONFIGURATION ====
-device = torch.device("cpu")
-yolo_model_path = "E:/dataset-FR/yolov8n-face-lindevs.pt"
-resnet_tcn_weights = "weights/resnet_tcn_deepfake_1.pt"    
+# 1. Dynamically locate the main project root folder relative to this api.py file
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-print("🔄 Initializing core model binaries on CPU...")
+# 2. Build cross-platform cloud paths that work natively on Windows, Linux, and Docker
+yolo_model_path = os.path.join(BASE_DIR, "weights", "yolov8n-face-lindevs.pt")
+resnet_tcn_weights = os.path.join(BASE_DIR, "weights", "resnet_tcn_deepfake_1.pt")    
+
+# 3. LOCAL ENVIRONMENT HYBRID FALLBACK FILTER:
+# If you haven't copied the YOLO model file into your C drive weights folder yet,
+# this safe fallback intercepts and reads it from your E drive automatically while on your PC.
+if not os.path.exists(yolo_model_path):
+    yolo_model_path = "E:/dataset-FR/yolov8n-face-lindevs.pt"
+
+device = torch.device("cpu")
+
+print("🔄 Initializing core model binaries on CPU via dynamic paths...")
 yolo_model = YOLO(yolo_model_path)
 
 model = ResNetTCN().to(device)
 model.load_state_dict(torch.load(resnet_tcn_weights, map_location=device))
 model.eval()
 print("✅ Systems active and ready for inference!")
+
 
 # ==== YOUR EXACT PIPELINE STEP 2 ====
 def create_face_only_video(input_video_path):
