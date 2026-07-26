@@ -30,41 +30,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Build rock-solid absolute cloud storage paths
 yolo_model_path = os.path.join(BASE_DIR, "weights", "yolov8n-face-lindevs.pt")
 resnet_tcn_weights = os.path.join(BASE_DIR, "weights", "resnet_tcn_deepfake_1.pt")    
-
-# 1. Automated downlinks for the YOLO face tracker asset layer
-if not os.path.exists(yolo_model_path):
-    import urllib.request
-    os.makedirs(os.path.dirname(yolo_model_path), exist_ok=True)
-    print("📥 Missing YOLO face weights in cloud container. Downloading file dynamically...")
-    url = "https://github.com"
-    urllib.request.urlretrieve(url, yolo_model_path)
-    print("✅ YOLO weights downloaded successfully!")
-
 device = torch.device("cpu")
 
-# 2. Complete Model Matrix Realization
-print("🔄 Initializing core model binaries on CPU via dynamic paths...")
+print("Loading YOLO...")
 yolo_model = YOLO(yolo_model_path)
 
+print("Loading ResNet-TCN...")
 model = ResNetTCN().to(device)
-
-# CLOUD FALLBACK STORAGE CHECK:
-# If the root weights path fails to load, we check a flat local layout path alternative to prevent crashes
-if not os.path.exists(resnet_tcn_weights):
-    resnet_tcn_weights = "resnet_tcn_deepfake_1.pt"
-
-try:
-    # Attempt a clean, verified weights file injection
-    model.load_state_dict(torch.load(resnet_tcn_weights, map_location=device))
-except Exception as e:
-    print(f"⚠️ Standard load failed: {str(e)}. Attempting non-strict matrix parameter mapping...")
-    # Production Recovery: Uses strict=False to bypass minor layer naming differences across PyTorch versions
-    state_dict = torch.load(resnet_tcn_weights, map_location=device)
-    model.load_state_dict(state_dict, strict=False)
-
+model.load_state_dict(torch.load(resnet_tcn_weights, map_location=device))
 model.eval()
-print("✅ Systems active and ready for inference!")
 
+print("Models loaded.")
 
 # ==== YOUR EXACT PIPELINE STEP 2 ====
 def create_face_only_video(input_video_path):

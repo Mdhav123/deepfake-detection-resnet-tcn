@@ -12,13 +12,11 @@ flows/
 checkpoints/
 results/
 resultss/
-weights/
 *.mp4
 *.avi
 *.mov
 *.mkv
 *.pth
-*.pt
 *.h5
 *.csv
 *.png

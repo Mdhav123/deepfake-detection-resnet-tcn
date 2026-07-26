@@ -5,7 +5,7 @@ from torchvision.models import resnet18
 class ResNetTCN(nn.Module):
     def __init__(self, resnet_out=512, num_classes=2):
         super().__init__()
-        base_model = resnet18(pretrained=True)
+        base_model = resnet18(pretrained=None)
         self.resnet = nn.Sequential(*list(base_model.children())[:-1])  # Remove FC layer
         self.resnet_out = resnet_out
 
